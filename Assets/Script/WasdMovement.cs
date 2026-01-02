@@ -1,5 +1,3 @@
-using Unity.Serialization;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -63,8 +61,8 @@ public class WasdMovement : MonoBehaviour
                 inputDuration.y = (movementInput.y == 0) ? 0 : inputDuration.y;
                 break;
             case KeyUpDecelerationType.Linear:
-                movementSpeedX = (movementInput.x == 0) ? inputDuration.x * maxSpeed : movementSpeedX;
-                movementSpeedZ = (movementInput.y == 0) ? inputDuration.y * maxSpeed : movementSpeedX;
+                movementSpeedX = (movementInput.x == 0) ? inputDuration.x * maxSpeed : movementSpeedX;      
+                movementSpeedZ = (movementInput.y == 0) ? inputDuration.y * maxSpeed : movementSpeedZ;
                 break;
             case KeyUpDecelerationType.EaseOut:
                 //EaseOut인 경우 기존 설정처럼 진행
@@ -78,7 +76,7 @@ public class WasdMovement : MonoBehaviour
         //최종적으로 이동
         Vector3 movementVector = new Vector3(movementSpeedX, 0, movementSpeedZ);
 
-        Debug.Log($"movementVector : {movementVector.x}, {movementVector.z}");
+        //Debug.Log($"movementVector : {movementVector.x}, {movementVector.z}");
         //움직임
         controller.Move(movementVector * Time.deltaTime);
     }
