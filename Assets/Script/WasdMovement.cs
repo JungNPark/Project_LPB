@@ -10,12 +10,20 @@ public enum KeyUpDecelerationType
 
 public class WasdMovement : MonoBehaviour
 {
+    [Header("속도")]
+    [Tooltip("최대 속도")]
     public float maxSpeed = 5.0f;
+    [Tooltip("최소 속도가 최대 속도의 몇 배인지 설정")]
+    [Range(0.0f, 1.0f)]
     public float minimumSpeedMultipler = 0.0f;
+    [Header("움직임 설정")]
+    [Tooltip("키보드에서 손을 뗀 경우 어떻게 감속하는지 설정")]
     [SerializeField]
     private KeyUpDecelerationType keyUpDecelerationType = KeyUpDecelerationType.Instant;
     [SerializeField]
+    [Tooltip("반대 방향키 키보드를 누를 때 감속을 키울 것인지 여부")]
     private bool bUseCounterDeceleration = false;
+    [Tooltip("반대 방향키를 눌렀을 때 감속 배수(기준 : 입력이 없을 때 감속)")]
     [SerializeField]
     private float counterDecelerationMultiplier = 2.0f;
     
@@ -76,7 +84,6 @@ public class WasdMovement : MonoBehaviour
         //최종적으로 이동
         Vector3 movementVector = new Vector3(movementSpeedX, 0, movementSpeedZ);
 
-        //Debug.Log($"movementVector : {movementVector.x}, {movementVector.z}");
         //움직임
         controller.Move(movementVector * Time.deltaTime);
     }
