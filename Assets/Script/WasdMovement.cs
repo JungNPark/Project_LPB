@@ -31,15 +31,36 @@ public class WasdMovement : MonoBehaviour
     private Vector2 movementInput = Vector2.zero;
     private Vector2 inputDuration = Vector2.zero;
     private CharacterController controller;
+    private Vector3 movementVector;
+    private LineRenderer xRenderer;
+    private LineRenderer zRenderer;
 
 
     private void Awake()
     {
         controller = GetComponent<CharacterController>();
     }
+
+    private void Start()
+    {
+        xRenderer = CreateLineRenderer(Color.red, "XAxisRenderer");
+        zRenderer = CreateLineRenderer(Color.blue, "ZAxisRenderer");
+    }
+
     private void Update()
     {
         Move();
+
+        if (xRenderer != null)
+        {
+            xRenderer.SetPosition(0, transform.position);
+            xRenderer.SetPosition(1, transform.position + new Vector3(movementVector.x * 0.5f, 0, 0));
+        }
+        if (zRenderer != null)
+        {
+            zRenderer.SetPosition(0, transform.position);
+            zRenderer.SetPosition(1, transform.position + new Vector3(0, 0, movementVector.z * 0.5f));
+        }
     }
 
     public void OnInputMove(InputValue value)
@@ -82,7 +103,7 @@ public class WasdMovement : MonoBehaviour
         movementSpeedZ = (movementInput.y * inputDuration.y <= 0) ? (movementSpeedZ) : (minimumSpeedMultipler * maxSpeed * movementInput.y + (1 - minimumSpeedMultipler) * movementSpeedZ);
 
         //최종적으로 이동
-        Vector3 movementVector = new Vector3(movementSpeedX, 0, movementSpeedZ);
+        movementVector = new Vector3(movementSpeedX, 0, movementSpeedZ);
 
         //움직임
         controller.Move(movementVector * Time.deltaTime);
@@ -112,5 +133,21 @@ public class WasdMovement : MonoBehaviour
         }
 
         return returnInputDuration;
+    }
+
+    private LineRenderer CreateLineRenderer(Color color, string name)
+    {
+        GameObject go = new GameObject(name);
+        go.transform.SetParent(transform);
+        go.transform.localPosition = Vector3.zero;
+
+        LineRenderer lr = go.AddComponent<LineRenderer>();
+        lr.startWidth = 0.1f;
+        lr.endWidth = 0.1f;
+        lr.positionCount = 2;
+        lr.material = new Material(Shader.Find("Sprites/Default"));
+        lr.startColor = color;
+        lr.endColor = color;
+        return lr;
     }
 }
