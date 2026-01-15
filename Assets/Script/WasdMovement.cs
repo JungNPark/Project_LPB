@@ -45,6 +45,7 @@ public class WasdMovement : MonoBehaviour
     {
         xRenderer = CreateLineRenderer(Color.red, "XAxisRenderer");
         zRenderer = CreateLineRenderer(Color.blue, "ZAxisRenderer");
+
     }
 
     private void Update()

@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Threat
+  - Chaser
   layers:
   - Default
   - TransparentFX
@@ -17,7 +17,7 @@ TagManager:
   - 
   - 
   - Ground
-  - 
+  - Chaser
   - 
   - 
   - 
