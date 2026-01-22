@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.Scripting.APIUpdating;
 using Unity.VisualScripting;
+using System.Runtime.CompilerServices;
 
 
 [RequireComponent(typeof(CharacterController))]
@@ -15,6 +16,7 @@ public class Runner : MonoBehaviour
     public float movementSpeed = 10.0f;
     public float panicTime = 1.0f;
     public float panicSpeedMultiplier = 1.5f;
+    public float gravity = -9.81f;
 
     public float boxCastSize = 0.5f;
 
@@ -29,6 +31,9 @@ public class Runner : MonoBehaviour
     private float panicDuration = 0.0f;
     private Renderer objectRenderer;
     private Color originalColor;
+    private float verticalVelocity = 0.0f;
+
+    private const float precipiceRayRange = 5.0f;
 
     void Awake()
     {
@@ -48,6 +53,13 @@ public class Runner : MonoBehaviour
 
     void Update()
     {
+        if (controller.isGrounded && verticalVelocity < 0)
+        {
+            verticalVelocity = -2f;
+        }
+        verticalVelocity += gravity * Time.deltaTime;
+        controller.Move(Vector3.up * verticalVelocity * Time.deltaTime);
+
         if(bIsFleeing)
         {
             Move();
@@ -72,10 +84,13 @@ public class Runner : MonoBehaviour
     IEnumerator DetermineFleeingStrategy()
     {
         WaitForSeconds waitflag = new WaitForSeconds(detectInterval);
-        //패닉 시간 업데이트 및 패닉 상태 검사
         while(true)
         {
+            //패닉 시간 및 감지 실패 시간 갱신
             panicDuration += detectInterval;
+            detectFailedTime += detectInterval;
+
+            //패닉 상태 검사  
             if(panicDuration >= panicTime)
             {
                 bIsPanic = false;
@@ -86,10 +101,10 @@ public class Runner : MonoBehaviour
                 yield return waitflag;
                 continue;
             }
+
+            //감지 범위 안에 Chaser가 있는지 확인한 후 있는 경우 도망 방향 결정
             Vector3 runDirSum = Vector3.zero;
             Collider[] chasers = Physics.OverlapSphere(transform.position, detectRange_outer);
-
-            detectFailedTime += detectInterval;
             foreach(Collider chaser in chasers)
             {
                 if(chaser.gameObject.tag != "Chaser")
@@ -104,10 +119,12 @@ public class Runner : MonoBehaviour
                 runDir = runDir.normalized;
                 runDirSum += runDir;
             }
+            //적이 아무도 없어서 runDirSum이 0인 경우를 제외하면 movementDirection 결정
             if(runDirSum != Vector3.zero)
             {
                 movementDirection = runDirSum.normalized;
             }
+            //감지 범위 안에 적이 일정 시간 없는 경우 도망 상태 해제
             if(bIsFleeing && detectFailedTime >= fleeDration)
             {
                 bIsFleeing = false;
@@ -117,18 +134,28 @@ public class Runner : MonoBehaviour
             Vector3 boxCastBaseScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.1f, transform.localScale.z);
             Vector3 halfExtents = boxCastBaseScale * boxCastSize;
             RaycastHit hit;
-            bool isHit = Physics.BoxCast(transform.position, halfExtents, movementDirection, out hit, transform.rotation, detectRange_inner, groundLayer);
-
-            Color color = isHit ? Color.red : Color.green;
-            float distance = isHit ? hit.distance : detectRange_outer;
+            bool isDetectWall = Physics.BoxCast(transform.position, halfExtents, movementDirection, out hit, transform.rotation, detectRange_inner, groundLayer);
+            //현재 감지 모습을 시각적으로 표현
+            Color color = isDetectWall ? Color.red : Color.green;
+            float distance = isDetectWall ? hit.distance : detectRange_inner;
             Debug.DrawRay(transform.position, movementDirection * distance, color);
             DrawBox(transform.position + movementDirection * distance, halfExtents, transform.rotation, color);
-
-            if(isHit)
+            if(isDetectWall)
             {
-                Debug.Log("Detect Wall");
                 bIsFleeing = false;
-                //벽이 있는 경우, detectRange_inner 범위에도 Chaser가 있는지 확인
+            }
+            //진행 방향에 낭떠러지가 있는지 확인
+            Vector3 precipiceCheckPos = transform.position + movementDirection * detectRange_inner;
+            bool isDetectPrecipice = !Physics.Raycast(precipiceCheckPos, Vector3.down, precipiceRayRange, groundLayer);
+            Debug.DrawRay(precipiceCheckPos, Vector3.down * precipiceRayRange, isDetectPrecipice ? Color.red : Color.green);
+            if(isDetectPrecipice)
+            {
+                bIsFleeing = false;
+            }
+
+            //도망이 불가능한 상황일 때 안쪽 탐지 범위에 Chaser가 들어오는지 확인
+            if (!bIsFleeing)
+            {
                 chasers = Physics.OverlapSphere(transform.position, detectRange_inner);
                 foreach(Collider chaser in chasers)
                 {
@@ -136,15 +163,13 @@ public class Runner : MonoBehaviour
                     {
                         continue;
                     }
-                    //플레이어와 벽이 없는 무작위 방향 추출
-                    do
+                    //플레이어와 벽이 없는 무작위 방향 추출, 낭떠러지일 경우 기존 방향 그대로 향하게 됌
+                    while(Physics.BoxCast(transform.position, halfExtents, movementDirection, out hit, transform.rotation, detectRange_inner, groundLayer) || Physics.BoxCast(transform.position, halfExtents, movementDirection, out hit, transform.rotation, detectRange_inner, chaserLayer))
                     {
                         movementDirection = new Vector3(Random.Range(-1.0f, 1.0f), 0, Random.Range(-1.0f, 1.0f));
                         movementDirection = movementDirection.normalized;
-                    
-                    }while(Physics.BoxCast(transform.position, halfExtents, movementDirection, out hit, transform.rotation, detectRange_outer, groundLayer) || Physics.BoxCast(transform.position, halfExtents, movementDirection, out hit, transform.rotation, detectRange_outer, chaserLayer));
+                    }
                     //panic 상태에 대한 설정 추가
-                    Debug.Log("Panic");
                     bIsPanic = true;
                     panicDuration = 0.0f;
                     bIsFleeing = true;

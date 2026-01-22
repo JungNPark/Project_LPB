@@ -67,7 +67,7 @@ public class WasdMovement : MonoBehaviour
     public void OnInputMove(InputValue value)
     {
         movementInput = value.Get<Vector2>();
-        Debug.Log($"InputMove ({movementInput.x}, {movementInput.y})");
+        //Debug.Log($"InputMove ({movementInput.x}, {movementInput.y})");
     }
 
     private void Move()
