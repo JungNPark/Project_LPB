@@ -39,4 +39,14 @@ public class BallCtrl : MonoBehaviour
         stat.dir = dir;
         Shoot(stat);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // 어딘가에 충돌하여 튕겨나가는(물리 엔진에 의해 계산된) 속도를 가져와서 
+        // 새로운 2D 진행 방향(X, Z)을 계산하고 stat.dir에 반영합니다.
+        if (rb.linearVelocity.sqrMagnitude > 0.01f)
+        {
+            stat.dir = new Vector2(rb.linearVelocity.x, rb.linearVelocity.z).normalized;
+        }
+    }
 }
