@@ -15,6 +15,28 @@ public class UIManager : MonoBehaviour
         Canvas[] canvases = FindObjectsByType<Canvas>(FindObjectsSortMode.None);
         mainCanvas = canvases[0];
 
+        InitEnemyHpUI();
+        // Ball Stat이라는 이름의 오브젝트를 찾아서 TextMeshProUGUI 컴포넌트를 가져옵니다.
+        InitBallStatUI();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        UpdateEnemyHpUI();
+        UpdateBallStatUI();
+    }
+    private void InitBallStatUI()
+    {
+        GameObject ballStatObj = GameObject.Find("Ball Stat");
+        if (ballStatObj != null)
+        {
+            ballStatText = ballStatObj.GetComponent<TextMeshProUGUI>();
+        }
+    }
+
+    private void InitEnemyHpUI()
+    {
         // 2. 적 리스트를 바탕으로 HP를 표시할 텍스트 UI를 생성합니다.
         if (GameManager.gameManager != null && GameManager.gameManager.enemys != null)
         {
@@ -22,7 +44,7 @@ public class UIManager : MonoBehaviour
             {
                 GameObject textObj = new GameObject($"{enemy.name}_HP_Text");
                 textObj.transform.SetParent(mainCanvas.transform, false);
-                
+
                 TextMeshProUGUI hpText = textObj.AddComponent<TextMeshProUGUI>();
                 hpText.fontSize = 32;
                 hpText.alignment = TextAlignmentOptions.Center;
@@ -35,19 +57,12 @@ public class UIManager : MonoBehaviour
         {
             Debug.Log("Can't Find enemys");
         }
-
-        // Ball Stat이라는 이름의 오브젝트를 찾아서 TextMeshProUGUI 컴포넌트를 가져옵니다.
-        GameObject ballStatObj = GameObject.Find("Ball Stat");
-        if (ballStatObj != null)
-        {
-            ballStatText = ballStatObj.GetComponent<TextMeshProUGUI>();
-        }
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void UpdateEnemyHpUI()
     {
-        foreach(Enemy enemy in GameManager.gameManager.enemys)
+        foreach (Enemy enemy in GameManager.gameManager.enemys)
         {
             if (hpTextDict.TryGetValue(enemy, out TextMeshProUGUI hpText))
             {
@@ -74,12 +89,18 @@ public class UIManager : MonoBehaviour
                 }
             }
         }
+    }
 
+    private void UpdateBallStatUI()
+    {
         // 공의 상태 정보를 UI 텍스트에 출력합니다.
         if (ballStatText != null && GameManager.gameManager != null && GameManager.gameManager.balls != null && GameManager.gameManager.balls.Length > 0)
         {
-            ballStatText.text = $"Ball speed\n{GameManager.gameManager.balls[0].stat.Speed}\n" +
-                                $"Ball Dir\n{GameManager.gameManager.balls[0].stat.dir}\n";
+            ballStatText.text = $"[Ball Stat]\n" + 
+                                $"speed : {GameManager.gameManager.balls[0].stat.speed}\n" +
+                                $"Dir : {GameManager.gameManager.balls[0].stat.dir}\n" + 
+                                $"Damage : {GameManager.gameManager.balls[0].stat.damage}\n" + 
+                                $"Size : {GameManager.gameManager.balls[0].stat.size}\n";
         }
     }
 }

@@ -23,7 +23,16 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-
+        InitLineRenderer();
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        // 공과 입력 매니저가 유효할 때, 공에서 마우스 위치까지 라인을 업데이트
+        DrawShootingLine();
+    }
+    private void InitLineRenderer()
+    {
         // 라인을 그리기 위한 LineRenderer 컴포넌트 추가 및 초기화
         lineRenderer = GetComponent<LineRenderer>();
         if (lineRenderer == null)
@@ -39,19 +48,19 @@ public class GameManager : MonoBehaviour
         lineRenderer.endWidth = 0.1f;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void DrawShootingLine()
     {
-        // 공과 입력 매니저가 유효할 때, 공에서 마우스 위치까지 라인을 업데이트
-        if (!bIsBallShooted && balls != null && balls.Length > 0 && inputManager != null)
+        if(bIsBallShooted)
         {
-            Vector3 mousePos = new Vector3(inputManager.mousePos_world.x, balls[0].transform.position.y, inputManager.mousePos_world.z);
-            Vector3 lineStart = balls[0].transform.position;
-            Vector3 lineDir = (mousePos - lineStart).normalized;
-            Vector3 lineEnd = lineStart + lineDir * lineLength;
-            lineRenderer.SetPosition(0, lineStart);
-            lineRenderer.SetPosition(1, lineEnd);
+            return;
         }
+        Vector3 mousePos = new Vector3(inputManager.mousePos_world.x, balls[0].transform.position.y, inputManager.mousePos_world.z);
+        Vector3 lineStart = balls[0].transform.position;
+        Vector3 lineDir = (mousePos - lineStart).normalized;
+        Vector3 lineEnd = lineStart + lineDir * lineLength;
+        lineRenderer.SetPosition(0, lineStart);
+        lineRenderer.SetPosition(1, lineEnd);
     }
 
     public void ClickMouse(Vector3 mousePosInWorld)

@@ -29,7 +29,7 @@ public class Enemy : MonoBehaviour
         
     }
 
-    private void OnDamaged(float damage)
+    public void OnDamaged(float damage)
     {
         stat.nowHp -= damage;
         StartCoroutine(FlashRed());
@@ -51,10 +51,6 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Ball"))
-        {
-            Debug.Log("Hit from ball");
-            OnDamaged(25.0f);
-        }
+        
     }
 }
