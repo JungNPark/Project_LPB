@@ -845,6 +845,7 @@ Transform:
   - {fileID: 1151215925}
   - {fileID: 924395207}
   - {fileID: 1458008703}
+  - {fileID: 1034741472}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &247292341
@@ -860,7 +861,7 @@ GameObject:
   - component: {fileID: 247292345}
   - component: {fileID: 247292344}
   - component: {fileID: 247292343}
-  - component: {fileID: 247292342}
+  - component: {fileID: 247292348}
   m_Layer: 0
   m_Name: Ball
   m_TagString: Ball
@@ -868,24 +869,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &247292342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 247292341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a3277d110947104aad581b0e822d155, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BallCtrl
-  stat:
-    dir: {x: 0, y: 0}
-    speed: 20
-    damage: 20
-    size: 1
-  SpeedUpScale: 0.01
 --- !u!54 &247292343
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1006,6 +989,29 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &247292348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 247292341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9b237757bcdc3242957f081fa0f9b4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TestBall
+  _stat:
+    maxHp: 100
+    nowHp: 0
+    Speed: 0
+    Size: 0
+  _ballStat:
+    speed: 20
+    size: 1
+    dir: {x: 0, y: 0, z: 0}
+    damage: 10
+  SpeedUpScale: 1
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1479,7 +1485,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   lineLength: 5
   bIsBallShooted: 0
-  inputManager: {fileID: 0}
+  inputManager: {fileID: 1151215926}
 --- !u!1 &987290669
 GameObject:
   m_ObjectHideFlags: 0
@@ -1514,6 +1520,53 @@ Transform:
   - {fileID: 832575519}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1034741471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1034741472}
+  - component: {fileID: 1034741473}
+  m_Layer: 0
+  m_Name: ItemManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1034741472
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034741471}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 246940318}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1034741473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1034741471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbfed85597e156d46bbad7e79d7119c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemManager
+  testItems:
+  - {fileID: 7057875410538650867, guid: 5bac6bfd647620442b60c75e0216c0a2, type: 3}
+  testBall: {fileID: 247292348}
 --- !u!1 &1085130043
 GameObject:
   m_ObjectHideFlags: 0

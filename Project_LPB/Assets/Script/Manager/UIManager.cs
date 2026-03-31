@@ -97,10 +97,10 @@ public class UIManager : MonoBehaviour
         if (ballStatText != null && GameManager.gameManager != null && GameManager.gameManager.balls != null && GameManager.gameManager.balls.Length > 0)
         {
             ballStatText.text = $"[Ball Stat]\n" + 
-                                $"speed : {GameManager.gameManager.balls[0].stat.speed}\n" +
-                                $"Dir : {GameManager.gameManager.balls[0].stat.dir}\n" + 
-                                $"Damage : {GameManager.gameManager.balls[0].stat.damage}\n" + 
-                                $"Size : {GameManager.gameManager.balls[0].stat.size}\n";
+                                $"speed : {GameManager.gameManager.balls[0].BallStat.speed}\n" +
+                                $"Dir : {GameManager.gameManager.balls[0].BallStat.dir}\n" + 
+                                $"Damage : {GameManager.gameManager.balls[0].BallStat.damage}\n" + 
+                                $"Size : {GameManager.gameManager.balls[0].BallStat.size}\n";
         }
     }
 }

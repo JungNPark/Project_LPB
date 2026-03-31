@@ -1,0 +1,75 @@
+using UnityEngine;
+using System.Collections.Generic;
+
+public class Item : MonoBehaviour, IItem
+{
+    private List<IAttackEffect> _attackEffects = new List<IAttackEffect>();
+    private List<IAcquireEffect> _acquireEffects = new List<IAcquireEffect>();
+    private List<ICollisionEffect> _collisionEffects = new List<ICollisionEffect>();
+    private List<IHitEffect> _hitEffects = new List<IHitEffect>();
+    private List<IItemEffect> _itemEffects = new List<IItemEffect>();
+    private List<ITickEffect> _tickEffects = new List<ITickEffect>();
+    private List<IUpdateEffect> _updateEffects = new List<IUpdateEffect>();
+    public List<IAttackEffect> AttackEffects { get=>_attackEffects; }
+    public List<IAcquireEffect> AcquireEffects { get=>_acquireEffects; }
+    public List<ICollisionEffect> CollisionEffects { get=>_collisionEffects; }
+    public List<IHitEffect> HitEffects { get=>_hitEffects; }
+    public List<IItemEffect> ItemEffects { get=>_itemEffects; }
+    public List<ITickEffect> TickEffects { get=>_tickEffects; }
+    public List<IUpdateEffect> UpdateEffects{ get=>_updateEffects; }
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Awake()
+    {
+        InitItemEffects();
+    }
+
+    void Start()
+    {
+
+    }
+
+    public void InitItemEffects()
+    {
+        Debug.Log("Check2");
+        GetComponents(_itemEffects);
+        foreach (IItemEffect effect in _itemEffects)
+        {
+            if (effect is IAttackEffect attackEffect)
+            {
+                _attackEffects.Add(attackEffect);
+            }
+            if (effect is IAcquireEffect acquireEffect)
+            {
+                _acquireEffects.Add(acquireEffect);
+            }
+            if (effect is ICollisionEffect collisionEffect)
+            {
+                _collisionEffects.Add(collisionEffect);
+            }
+            if (effect is IHitEffect hitEffect)
+            {
+                _hitEffects.Add(hitEffect);
+            }
+            if (effect is ITickEffect tickEffect)
+            {
+                _tickEffects.Add(tickEffect);
+            }
+            if (effect is IUpdateEffect updateEffect)
+            {
+                _updateEffects.Add(updateEffect);
+            }
+        }
+    }
+
+    public void OnAcquire(IBall ball)
+    {
+    
+    }
+
+    public void OnRelease(IBall ball)
+    {
+        
+    }
+
+}

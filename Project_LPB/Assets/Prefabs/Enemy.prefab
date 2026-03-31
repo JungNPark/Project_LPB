@@ -127,4 +127,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   stat:
     maxHp: 100
-    nowHp: 0
+    nowHp: 100

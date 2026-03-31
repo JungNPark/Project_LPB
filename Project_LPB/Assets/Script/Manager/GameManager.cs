@@ -3,7 +3,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    public BallCtrl[] balls { get; set;}
+    public BallBase[] balls { get; set;}
     public Enemy[] enemys { get; set; }
     public float lineLength = 5.0f;
     public bool bIsBallShooted = false;
@@ -18,19 +18,42 @@ public class GameManager : MonoBehaviour
             gameManager = this;
         }
         inputManager = FindObjectsByType<InputManager>(FindObjectsSortMode.None)[0];
-        balls = FindObjectsByType<BallCtrl>(FindObjectsSortMode.None);
+        balls = FindObjectsByType<BallBase>(FindObjectsSortMode.None);
         enemys = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
     }
+
     void Start()
     {
         InitLineRenderer();
     }
+
     // Update is called once per frame
     void Update()
     {
-        // 공과 입력 매니저가 유효할 때, 공에서 마우스 위치까지 라인을 업데이트
         DrawShootingLine();
     }
+
+    public void ClickMouse(Vector3 mousePosInWorld)
+    {
+        Vector3 ballPos = balls[0].transform.position;
+        Vector3 shootingDir = (mousePosInWorld - ballPos).normalized;
+
+        Debug.Log($"공 발사 방향 벡터 : {shootingDir}");
+        ShootBalls(shootingDir);
+    }
+
+    public void ShootBalls(Vector3 dir)
+    {
+
+        bIsBallShooted = true;
+
+        lineRenderer.enabled = false;
+        foreach(IBall ball in balls)
+        {
+            ball.Shoot(dir);
+        }
+    }
+
     private void InitLineRenderer()
     {
         // 라인을 그리기 위한 LineRenderer 컴포넌트 추가 및 초기화
@@ -63,24 +86,7 @@ public class GameManager : MonoBehaviour
         lineRenderer.SetPosition(1, lineEnd);
     }
 
-    public void ClickMouse(Vector3 mousePosInWorld)
-    {
-        Vector3 ballPos = balls[0].transform.position;
-        Vector2 shootingDir = new Vector2(mousePosInWorld.x - ballPos.x, mousePosInWorld.z - ballPos.z).normalized;
 
-        Debug.Log($"공 발사 방향 벡터 : {shootingDir}");
-        ShootBalls(shootingDir);
-    }
-
-    public void ShootBalls(Vector2 dir)
-    {
-
-        bIsBallShooted = true;
-        //그려진 lineRenderer 지우기
-        lineRenderer.enabled = false;
-        foreach(BallCtrl ball in balls)
-        {
-            ball.Shoot(dir);
-        }
-    }
+    
 }
+
