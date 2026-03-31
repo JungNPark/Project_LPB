@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface ICollisionEffect
+public interface ICollisionEffect : IItemEffect
 {
     
 }

@@ -7,7 +7,10 @@ public class ItemManager : MonoBehaviour
 
     void Start()
     {
-        AcquireItem(testItems[0], testBall);
+        foreach(Item item in testItems)
+        {
+            AcquireItem(item, testBall);
+        }
     }
 
     public void AcquireItem(Item item, IBall ball)
@@ -15,7 +18,6 @@ public class ItemManager : MonoBehaviour
         item.InitItemEffects();
         foreach(var acquireEffect in item.AcquireEffects)
         {
-            
             acquireEffect.OnAcquire(ball);
             Debug.Log("Check");
         }

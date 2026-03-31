@@ -19,19 +19,9 @@ public class Item : MonoBehaviour, IItem
     public List<IUpdateEffect> UpdateEffects{ get=>_updateEffects; }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Awake()
-    {
-        InitItemEffects();
-    }
-
-    void Start()
-    {
-
-    }
 
     public void InitItemEffects()
     {
-        Debug.Log("Check2");
         GetComponents(_itemEffects);
         foreach (IItemEffect effect in _itemEffects)
         {

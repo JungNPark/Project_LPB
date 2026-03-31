@@ -9,7 +9,7 @@ public class TestBall : BallBase
         base.OnCollisionEnter(collision);
         if (rb.linearVelocity.sqrMagnitude > 0.01f)
         {
-            _ballStat.dir = new Vector2(rb.linearVelocity.x, rb.linearVelocity.z).normalized;
+            _ballStat.dir = rb.linearVelocity.normalized;
         }
         
         if (collision.gameObject.CompareTag("Enemy"))
@@ -17,7 +17,7 @@ public class TestBall : BallBase
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.OnDamaged(_ballStat.damage);
+                enemy.OnDamaged(_ballStat.damage.Value);
             }
         }
     }

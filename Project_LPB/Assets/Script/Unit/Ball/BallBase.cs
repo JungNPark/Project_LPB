@@ -21,15 +21,15 @@ public class BallBase : UnitBase, IBall
 
     private void ApplyStat()
     {
-        rb.linearVelocity = rb.linearVelocity.normalized * _ballStat.speed;
-        transform.localScale = Vector3.one * _ballStat.size;
+        rb.linearVelocity = rb.linearVelocity.normalized * _ballStat.speed.Value;
+        transform.localScale = Vector3.one * _ballStat.size.Value;
     }
 
     public virtual void Shoot(BallStat stat)
     {
         Vector3 dir = new Vector3(stat.dir.x, 0, stat.dir.z);
         dir = dir.normalized;
-        rb.linearVelocity = dir * stat.speed;
+        rb.linearVelocity = dir * stat.speed.Value;
     }
 
     public virtual void Shoot(Vector3 dir)

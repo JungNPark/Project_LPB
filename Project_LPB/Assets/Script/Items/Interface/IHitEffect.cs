@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IHitEffect
+public interface IHitEffect : IItemEffect
 {
     
 }

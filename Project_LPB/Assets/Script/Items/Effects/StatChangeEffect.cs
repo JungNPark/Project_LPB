@@ -7,7 +7,8 @@ public class StatChangeEffect : MonoBehaviour, IAcquireEffect
     [SerializeField]
     private Stat _statChangeVolume;  
     [SerializeField]
-    private BallStat _ballStatChangeVolume;  
+    private BallStat _ballStatChangeVolume;
+
     public void OnAcquire(IBall ball)
     {
         ball.Stat += _statChangeVolume;

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface ITickEffect
+public interface ITickEffect : IItemEffect
 {
     
 }

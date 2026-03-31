@@ -2,5 +2,5 @@ using UnityEngine;
 
 public interface IUnit
 {
-    public Stat Stat{get; set;}
+    Stat Stat{get; set;}
 }

@@ -3,10 +3,10 @@ using UnityEngine;
 [System.Serializable]
 public class BallStat
 {
-    public float speed;
-    public float size;
+    public StatValue speed;
+    public StatValue size;
     public Vector3 dir;
-    public float damage;
+    public StatValue damage;
 
     public static BallStat operator +(BallStat a, BallStat b)
     {

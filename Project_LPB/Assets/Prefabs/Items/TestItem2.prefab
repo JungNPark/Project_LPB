@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7057875410538650867}
   - component: {fileID: 4117263800964095098}
   m_Layer: 0
-  m_Name: TestItem
+  m_Name: TestItem2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,6 +92,6 @@ MonoBehaviour:
     dir: {x: 0, y: 0, z: 0}
     damage:
       _baseValue: 0
-      _addValue: 0
-      _multiplier: 0.3
+      _addValue: 10
+      _multiplier: 0
       _finalAddValue: 0
