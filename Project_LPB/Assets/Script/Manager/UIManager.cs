@@ -94,13 +94,16 @@ public class UIManager : MonoBehaviour
     private void UpdateBallStatUI()
     {
         // 공의 상태 정보를 UI 텍스트에 출력합니다.
-        if (ballStatText != null && GameManager.gameManager != null && GameManager.gameManager.balls != null && GameManager.gameManager.balls.Length > 0)
+        if (GameManager.gameManager != null && GameManager.gameManager.balls != null && GameManager.gameManager.balls.Length > 0)
         {
-            ballStatText.text = $"[Ball Stat]\n" + 
-                                $"speed : {GameManager.gameManager.balls[0].BallStat.speed.Value}\n" +
-                                $"Dir : {GameManager.gameManager.balls[0].BallStat.dir}\n" + 
-                                $"Damage : {GameManager.gameManager.balls[0].BallStat.damage.Value}\n" + 
-                                $"Size : {GameManager.gameManager.balls[0].BallStat.size.Value}\n";
+            var stat = GameManager.gameManager.balls[0].Stat;
+            var ballStat = GameManager.gameManager.balls[0].BallStat;
+
+            if (ballStatText != null)
+            {
+                ballStatText.text = $"[Stat]\n maxHp: {stat.maxHp.Value}\n nowHp: {stat.nowHp.Value}\n damageReduction: {stat.damageReduction.Value}\n speed: {stat.speed.Value}\n size: {stat.size.Value}\n damage: {stat.damage.Value}\n trueDamage: {stat.trueDamage.Value}\n" +
+                                    $"[BallStat]\n dir: {ballStat.dir}\n criticalChance: {ballStat.criticalChance.Value}\n cirticalDamage: {ballStat.cirticalDamage.Value}";
+            }
         }
     }
 }

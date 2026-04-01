@@ -8,7 +8,7 @@ public struct EnemyStat
     public float nowHp;
 };
 
-public class Enemy : MonoBehaviour
+public class Enemy : UnitBase
 {
     public EnemyStat stat;
     private Renderer rend;
@@ -29,14 +29,18 @@ public class Enemy : MonoBehaviour
         
     }
 
-    public void OnDamaged(float damage)
+    public override float TakeDamage(IUnit attacker, float damage)
     {
+        base.TakeDamage(attacker, damage);
+
         stat.nowHp -= damage;
         StartCoroutine(FlashRed());
         if(stat.nowHp <= 0.01)
         {
             gameObject.SetActive(false);
         }
+
+        return damage;
     }
 
     IEnumerator FlashRed()
@@ -49,8 +53,8 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    protected override void OnCollisionEnter(Collision collision)
     {
-        
+        base.OnCollisionEnter(collision);
     }
 }

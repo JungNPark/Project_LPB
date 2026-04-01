@@ -5,7 +5,6 @@ public class TestBall : BallBase
     public float SpeedUpScale = 1.0f;
     protected override void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Check");
         base.OnCollisionEnter(collision);
         if (rb.linearVelocity.sqrMagnitude > 0.01f)
         {
@@ -17,8 +16,15 @@ public class TestBall : BallBase
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (enemy != null)
             {
-                enemy.OnDamaged(_ballStat.damage.Value);
+                ApplyDamage(enemy, _stat.damage.Value);
             }
         }
+    }
+
+    protected override void ApplyDamage(IUnit target, float damage)
+    {
+        base.ApplyDamage(target, damage);
+
+        target.TakeDamage(this, damage);
     }
 }

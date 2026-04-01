@@ -3,19 +3,25 @@ using System.Collections;
 using Unity.IO.LowLevel.Unsafe;
 using System.Collections.Generic;
 using Unity.VisualScripting.InputSystem;
+using UnityEngine.PlayerLoop;
 
 
-delegate void UpdateDelegate(float deltaTime);
-delegate void TickDelegate(float tickRate);
-delegate void CollisionDelegate(Collision collision);
+public delegate void UpdateDelegate(float deltaTime);
+public delegate void TickDelegate(float tickRate);
+public delegate void CollisionDelegate(Collision collision);
+public delegate void AttackDelegate(IUnit attacker, IUnit target, float damage);
+public delegate void HitDelegate(IUnit attacker, IUnit target, float damage);
 public class UnitBase : MonoBehaviour, IUnit
 {
-    UpdateDelegate updateDelegate;
-    TickDelegate tickDelegate;
-    CollisionDelegate collisionDelegate;
+    public UpdateDelegate updateDelegate;
+    public TickDelegate tickDelegate;
+    public CollisionDelegate collisionDelegate;
+
+    public AttackDelegate attackDelegate;
+    public HitDelegate hitDelegate;
 
     [SerializeField]
-    private Stat _stat;
+    protected Stat _stat;
     public virtual Stat Stat
     {
         get => _stat;
@@ -66,4 +72,17 @@ public class UnitBase : MonoBehaviour, IUnit
     {
         collisionDelegate?.Invoke(collision);
     }
+
+    protected virtual void ApplyDamage(IUnit target, float damage)
+    {
+        attackDelegate?.Invoke(this, target, damage);
+    }
+
+    public virtual float TakeDamage(IUnit attacker, float damage)
+    {
+        hitDelegate?.Invoke(attacker, this, damage);
+
+        return damage;
+    }
+    
 }

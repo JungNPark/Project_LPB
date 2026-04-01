@@ -22,6 +22,10 @@ public class Item : MonoBehaviour, IItem
 
     public void InitItemEffects()
     {
+        if(_itemEffects.Count != 0)
+        {
+            return;
+        }
         GetComponents(_itemEffects);
         foreach (IItemEffect effect in _itemEffects)
         {
