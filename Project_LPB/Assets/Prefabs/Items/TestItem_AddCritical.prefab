@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5204862364201036275}
   - component: {fileID: 7057875410538650867}
   - component: {fileID: 4117263800964095098}
+  - component: {fileID: 1905448606590196612}
   m_Layer: 0
   m_Name: TestItem_AddCritical
   m_TagString: Untagged
@@ -57,6 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce2a27058a3cd74595f54901e06175d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StatChangeEffect
+  _generalID: 0
   _statChangeVolume:
     maxHp:
       _baseValue: 0
@@ -105,3 +107,16 @@ MonoBehaviour:
       _addValue: 5
       _multiplier: 0
       _finalAddValue: 0
+--- !u!114 &1905448606590196612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7222869525584943996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c90f0a2c35d6c0d4c8063e43328c3ea8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AcquireEffect_ExecuteGeneralEffect
+  _targetGeneralID: 0

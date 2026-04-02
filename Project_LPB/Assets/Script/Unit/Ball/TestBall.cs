@@ -21,6 +21,18 @@ public class TestBall : BallBase
         }
     }
 
+    protected virtual void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            Enemy enemy = other.gameObject.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                ApplyDamage(enemy, _stat.damage.Value);
+            }
+        }
+    }
+
     protected override void ApplyDamage(IUnit target, float damage)
     {
         base.ApplyDamage(target, damage);

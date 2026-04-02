@@ -6,8 +6,8 @@ public class ItemManager : MonoBehaviour
     public Item[] testItems;
     public BallBase testBall;
     public int[] AcquireNumberList;
-    public List<IAttackEffect> attackEffects;
-    public List<IHitEffect> hitEffects;
+    public List<IAttackEffect> attackEffects = new List<IAttackEffect>();
+    public List<IHitEffect> hitEffects = new List<IHitEffect>();
 
     void Start()
     {
@@ -39,6 +39,10 @@ public class ItemManager : MonoBehaviour
 
     public void ExecuteAttackEffect(IUnit attacker, IUnit target, float damage)
     {
-        Debug.Log("Execute Attack Effect");
+        Debug.Log($"Execute Attacker Effect - damage : {damage}");
+        foreach(var attackEffect in attackEffects)
+        {
+            attackEffect.OnAttack(attacker, target , damage);
+        }
     }
 }

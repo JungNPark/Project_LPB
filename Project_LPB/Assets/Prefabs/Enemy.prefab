@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 446294093665615492}
   - component: {fileID: 3236771281684365890}
   - component: {fileID: 6138616050167584250}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -125,6 +125,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c0e75b5dd4c7f41b11c340e17b9845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
+  _stat:
+    maxHp:
+      _baseValue: 0
+      _addValue: 0
+      _multiplier: 0
+      _finalAddValue: 0
+    nowHp:
+      _baseValue: 0
+      _addValue: 0
+      _multiplier: 0
+      _finalAddValue: 0
+    damageReduction:
+      _baseValue: 0
+      _addValue: 0
+      _multiplier: 0
+      _finalAddValue: 0
+    speed:
+      _baseValue: 0
+      _addValue: 0
+      _multiplier: 0
+      _finalAddValue: 0
+    size:
+      _baseValue: 0
+      _addValue: 0
+      _multiplier: 0
+      _finalAddValue: 0
+    damage:
+      _baseValue: 0
+      _addValue: 0
+      _multiplier: 0
+      _finalAddValue: 0
+    trueDamage:
+      _baseValue: 0
+      _addValue: 0
+      _multiplier: 0
+      _finalAddValue: 0
   stat:
     maxHp: 100
     nowHp: 100
