@@ -5,20 +5,28 @@ using System.Collections.Generic;
 using Unity.VisualScripting.InputSystem;
 using UnityEngine.PlayerLoop;
 
-
+#region Declaring Delegates
+//Update가 호출될 때마다 작동하는 델리게이트
 public delegate void UpdateDelegate(float deltaTime);
+//별도로 추가한 Tick 함수가 호출될 때마다 작동하는 델리게이트
 public delegate void TickDelegate(float tickRate);
+//CollisionEnter가 호출될 때마다 작동하는 델리게이트
 public delegate void CollisionDelegate(Collision collision);
+//ApplyDamage()가 호출될 때마다 작동하는 델리게이트
 public delegate void AttackDelegate(IUnit attacker, IUnit target, float damage);
+//TakeDamage()가 호출될 때마다 작동하는 델리게이트
 public delegate void HitDelegate(IUnit attacker, IUnit target, float damage);
+#endregion
 public class UnitBase : MonoBehaviour, IUnit
 {
+
+#region delegate Fields
     public UpdateDelegate updateDelegate;
     public TickDelegate tickDelegate;
     public CollisionDelegate collisionDelegate;
-
     public AttackDelegate attackDelegate;
     public HitDelegate hitDelegate;
+#endregion
 
     [SerializeField]
     protected Stat _stat;
@@ -36,16 +44,6 @@ public class UnitBase : MonoBehaviour, IUnit
         StartCoroutine(TickCoroutine());
     }
 
-    private IEnumerator TickCoroutine()
-    {
-        WaitForSeconds wait = new WaitForSeconds(0.1f);
-        while (true)
-        {
-            OnTick(0.1f);
-            yield return wait;
-        }
-    }
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -56,6 +54,16 @@ public class UnitBase : MonoBehaviour, IUnit
     void Update()
     {
         OnUpdate(Time.deltaTime);
+    }
+
+    private IEnumerator TickCoroutine()
+    {
+        WaitForSeconds wait = new WaitForSeconds(0.1f);
+        while (true)
+        {
+            OnTick(0.1f);
+            yield return wait;
+        }
     }
 
     protected virtual void OnUpdate(float deltaTime)

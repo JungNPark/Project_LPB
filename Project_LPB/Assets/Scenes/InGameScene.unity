@@ -1419,7 +1419,7 @@ MonoBehaviour:
   - {fileID: 6875178008429800384, guid: c53ee670c67860c42a4614639c047afd, type: 3}
   - {fileID: 8039816551703166289, guid: a77ff708865259546a8dfd042d6a77bf, type: 3}
   testBall: {fileID: 247292348}
-  AcquireNumberList: 0400000005000000
+  AcquireNumberList: 05000000
 --- !u!1 &1085130043
 GameObject:
   m_ObjectHideFlags: 0

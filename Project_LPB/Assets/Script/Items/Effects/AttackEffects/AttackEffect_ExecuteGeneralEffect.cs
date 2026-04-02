@@ -3,6 +3,24 @@ using System.Collections.Generic;
 
 public class AttackEffect_ExecuteGeneralEffect : MonoBehaviour, IAttackEffect
 {
+    #region Variables
+
+    #endregion
+    #region Properties
+
+    #endregion
+
+    #region Unity LifeCycle
+
+    #endregion
+
+    #region Public Methods
+
+    #endregion
+
+    #region Private Methods
+
+    #endregion
     [SerializeField]
     private int _targetGeneralID;
     private List<IGeneralEffect> targetGeneralEffects = new List<IGeneralEffect>();

@@ -2,12 +2,19 @@ using UnityEngine;
 
 public class BallBase : UnitBase, IBall
 {
+#region Variables
     protected Rigidbody rb;
     [SerializeField]
     protected BallStat _ballStat;
+
+#endregion
+
+#region Properties
     public BallStat BallStat { get => _ballStat; set => _ballStat = value; }
 
-    
+#endregion
+
+#region Unity LifeCycle
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -18,6 +25,10 @@ public class BallBase : UnitBase, IBall
     {
         ApplyStat();
     }
+
+#endregion
+
+#region Private Methods
 
     private void ApplyStat()
     {
@@ -37,7 +48,5 @@ public class BallBase : UnitBase, IBall
         _ballStat.dir = dir;
         Shoot(_ballStat);
     }
-
-
-    
+#endregion
 }
