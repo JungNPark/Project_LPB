@@ -3,15 +3,23 @@ using UnityEngine;
 
 public class GeneralEffect_StatChange : MonoBehaviour, IGeneralEffect
 {
+    #region Variables
+
     [SerializeField]
     private int _generalID = 0;
-
     [SerializeField]
     private Stat _statChangeVolume;  
     [SerializeField]
     private BallStat _ballStatChangeVolume;
+
+    #endregion
     
+    #region Properties
     public int GeneralID { get => _generalID; }
+
+    #endregion
+
+    #region PublicMethods
 
     public void Execute(IUnit target)
     {
@@ -32,4 +40,6 @@ public class GeneralEffect_StatChange : MonoBehaviour, IGeneralEffect
     {
         Execute(owner);
     }
+
+    #endregion
 }

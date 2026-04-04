@@ -1,29 +1,22 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+/// <summary>
+/// 적중시 범용 효과를 호출하는 클래스
+/// </summary>
 public class AttackEffect_ExecuteGeneralEffect : MonoBehaviour, IAttackEffect
 {
     #region Variables
-
-    #endregion
-    #region Properties
-
-    #endregion
-
-    #region Unity LifeCycle
-
-    #endregion
-
-    #region Public Methods
-
-    #endregion
-
-    #region Private Methods
-
-    #endregion
+    
+    //이 클래스가 작동시킬 범용 효과의 ID
     [SerializeField]
     private int _targetGeneralID;
+    //이 클래스가 작동시킬 범용 효과 리스트
     private List<IGeneralEffect> targetGeneralEffects = new List<IGeneralEffect>();
+
+#endregion
+
+    #region Public Methods
     public void OnAttack(IUnit attacker, IUnit target, float damage)
     {
         if(targetGeneralEffects.Count == 0)
@@ -36,6 +29,9 @@ public class AttackEffect_ExecuteGeneralEffect : MonoBehaviour, IAttackEffect
         }
     }
 
+    #endregion
+
+    #region Private Methods
     private void FetchGeneralEffects()
     {
         
@@ -48,4 +44,6 @@ public class AttackEffect_ExecuteGeneralEffect : MonoBehaviour, IAttackEffect
             }
         }
     }
+
+    #endregion
 }

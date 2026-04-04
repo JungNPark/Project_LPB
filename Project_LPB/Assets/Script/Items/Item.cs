@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class Item : MonoBehaviour, IItem
 {
+    #region Variables
+
     private List<IAttackEffect> _attackEffects = new List<IAttackEffect>();
     private List<IAcquireEffect> _acquireEffects = new List<IAcquireEffect>();
     private List<ICollisionEffect> _collisionEffects = new List<ICollisionEffect>();
@@ -10,6 +12,11 @@ public class Item : MonoBehaviour, IItem
     private List<IItemEffect> _itemEffects = new List<IItemEffect>();
     private List<ITickEffect> _tickEffects = new List<ITickEffect>();
     private List<IUpdateEffect> _updateEffects = new List<IUpdateEffect>();
+
+    #endregion
+    
+    #region Properties
+
     public List<IAttackEffect> AttackEffects { get=>_attackEffects; }
     public List<IAcquireEffect> AcquireEffects { get=>_acquireEffects; }
     public List<ICollisionEffect> CollisionEffects { get=>_collisionEffects; }
@@ -18,7 +25,11 @@ public class Item : MonoBehaviour, IItem
     public List<ITickEffect> TickEffects { get=>_tickEffects; }
     public List<IUpdateEffect> UpdateEffects{ get=>_updateEffects; }
 
+    #endregion
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    #region Public Methods
 
     public void InitItemEffects()
     {
@@ -65,5 +76,7 @@ public class Item : MonoBehaviour, IItem
     {
         
     }
+
+    #endregion
 
 }

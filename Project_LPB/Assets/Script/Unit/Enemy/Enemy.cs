@@ -1,23 +1,24 @@
 using UnityEngine;
 using System.Collections;
 
-[System.Serializable]
-public struct EnemyStat
-{
-    public float maxHp;
-    public float nowHp;
-};
-
 public class Enemy : UnitBase
 {
-    public EnemyStat stat;
+    #region Variables
     private Renderer rend;
     private Color originalColor;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    #endregion
+
+    #region Properties
+
+    
+    #endregion
+
+    #region Unity LifeCycle
+
     void Start()
     {
-        stat.nowHp = stat.maxHp;
+        Stat.nowHp = Stat.maxHp.Value;
         rend = GetComponent<Renderer>();
         if (rend != null)
             originalColor = rend.material.color;
@@ -28,14 +29,21 @@ public class Enemy : UnitBase
     {
         
     }
+    protected override void OnCollisionEnter(Collision collision)
+    {
+        base.OnCollisionEnter(collision);
+    }
 
+    #endregion
+
+    #region Public Methods
     public override float TakeDamage(IUnit attacker, float damage)
     {
         base.TakeDamage(attacker, damage);
 
-        stat.nowHp -= damage;
+        Stat.nowHp -= damage;
         StartCoroutine(FlashRed());
-        if(stat.nowHp <= 0.01)
+        if(Stat.nowHp <= 0.01)
         {
             gameObject.SetActive(false);
         }
@@ -43,7 +51,10 @@ public class Enemy : UnitBase
         return damage;
     }
 
-    IEnumerator FlashRed()
+    #endregion
+
+    #region Private Methods
+    private IEnumerator FlashRed()
     {
         if (rend != null)
         {
@@ -53,8 +64,10 @@ public class Enemy : UnitBase
         }
     }
 
-    protected override void OnCollisionEnter(Collision collision)
-    {
-        base.OnCollisionEnter(collision);
-    }
+    #endregion
+
+
+
+
+
 }

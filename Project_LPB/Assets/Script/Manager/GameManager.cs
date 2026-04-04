@@ -2,22 +2,30 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    #region Variables
+    private LineRenderer lineRenderer;
+    [SerializeField]
+    private float lineLength = 5.0f;
+    private bool bIsBallShooted = false;
+
+    #endregion
+
+    #region Properties
     public BallBase[] balls { get; set;}
     public Enemy[] enemys { get; set; }
-    public float lineLength = 5.0f;
-    public bool bIsBallShooted = false;
-    public static GameManager gameManager;
-    public InputManager inputManager;
-    private LineRenderer lineRenderer;
+    public InputManager InputManager { get; set; }
+    public static GameManager Instance { get; set; }
 
+    #endregion
+
+    #region Unity LifeCycle
     void Awake()
     {
-        if(gameManager == null)
+        if(Instance == null)
         {
-            gameManager = this;
+            Instance = this;
         }
-        inputManager = FindObjectsByType<InputManager>(FindObjectsSortMode.None)[0];
+        InputManager = FindObjectsByType<InputManager>(FindObjectsSortMode.None)[0];
         balls = FindObjectsByType<BallBase>(FindObjectsSortMode.None);
         enemys = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
     }
@@ -33,6 +41,9 @@ public class GameManager : MonoBehaviour
         DrawShootingLine();
     }
 
+    #endregion
+
+    #region Public Methods
     public void ClickMouse(Vector3 mousePosInWorld)
     {
         Vector3 ballPos = balls[0].transform.position;
@@ -54,6 +65,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region Private Methods
     private void InitLineRenderer()
     {
         // 라인을 그리기 위한 LineRenderer 컴포넌트 추가 및 초기화
@@ -78,13 +92,18 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-        Vector3 mousePos = new Vector3(inputManager.mousePos_world.x, balls[0].transform.position.y, inputManager.mousePos_world.z);
+        Vector3 mousePos = new Vector3(InputManager.MousePos_world.x, balls[0].transform.position.y, InputManager.MousePos_world.z);
         Vector3 lineStart = balls[0].transform.position;
         Vector3 lineDir = (mousePos - lineStart).normalized;
         Vector3 lineEnd = lineStart + lineDir * lineLength;
         lineRenderer.SetPosition(0, lineStart);
         lineRenderer.SetPosition(1, lineEnd);
     }
+
+    #endregion
+
+
+
 
 
     

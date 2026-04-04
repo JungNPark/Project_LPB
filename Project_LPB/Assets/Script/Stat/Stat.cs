@@ -6,7 +6,7 @@ using UnityEngine;
 public class Stat
 {
     public StatValue maxHp;
-    public StatValue nowHp;
+    public float nowHp;
     public StatValue damageReduction;
     public StatValue speed;
     public StatValue size;

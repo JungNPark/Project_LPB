@@ -4,11 +4,19 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    InputAction clickAction;
-    InputAction pointAction;
-    public Vector2 mousePos_screen {get; set;}
-    public Vector3 mousePos_world { get; set; }
+    #region Variables
+    private InputAction clickAction;
+    private InputAction pointAction;
 
+    #endregion
+    
+    #region Properties
+    public Vector2 MousePos_screen {get; set;}
+    public Vector3 MousePos_world {get; set;}
+
+    #endregion
+
+    #region Unity LifeCycle
     void Start()
     {
         clickAction = InputSystem.actions.FindAction("Click");
@@ -17,23 +25,33 @@ public class InputManager : MonoBehaviour
 
     void Update()
     {
-        mousePos_screen = pointAction.ReadValue<Vector2>();
-        Ray ray = Camera.main.ScreenPointToRay(mousePos_screen);
+        MousePos_screen = pointAction.ReadValue<Vector2>();
+        Ray ray = Camera.main.ScreenPointToRay(MousePos_screen);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            mousePos_world = hit.point;
+            MousePos_world = hit.point;
         }
     }
 
-    void OnClick()
+    #endregion
+
+    #region Public Methods
+
+    #endregion
+
+    #region Private Methods
+    private void OnClick()
     {
         if(!clickAction.IsPressed())
         {
             return;
         }
-        Debug.Log($"마우스 좌표 : {mousePos_world}" );
-        GameManager.gameManager.ClickMouse(mousePos_world);
-        
+        Debug.Log($"마우스 좌표 : {MousePos_world}" );
+        GameManager.Instance.ClickMouse(MousePos_world);
     }
+
+    #endregion
+
+
 
 }

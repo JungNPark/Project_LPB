@@ -4,11 +4,19 @@ using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
+    
+    #region Variables
     private Dictionary<Enemy, TextMeshProUGUI> hpTextDict = new Dictionary<Enemy, TextMeshProUGUI>();
     private Canvas mainCanvas;
     private TextMeshProUGUI ballStatText;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    #endregion
+    
+    #region Properties
+
+    #endregion
+
+    #region Unity LifeCycle
     void Start()
     {
         // 1. 씬 내에 Canvas가 있는지 확인하고, 없다면 생성합니다.
@@ -26,6 +34,14 @@ public class UIManager : MonoBehaviour
         UpdateEnemyHpUI();
         UpdateBallStatUI();
     }
+
+    #endregion
+
+    #region Public Methods
+
+    #endregion
+
+    #region Private Methods
     private void InitBallStatUI()
     {
         GameObject ballStatObj = GameObject.Find("Ball Stat");
@@ -38,9 +54,9 @@ public class UIManager : MonoBehaviour
     private void InitEnemyHpUI()
     {
         // 2. 적 리스트를 바탕으로 HP를 표시할 텍스트 UI를 생성합니다.
-        if (GameManager.gameManager != null && GameManager.gameManager.enemys != null)
+        if (GameManager.Instance != null && GameManager.Instance.enemys != null)
         {
-            foreach (Enemy enemy in GameManager.gameManager.enemys)
+            foreach (Enemy enemy in GameManager.Instance.enemys)
             {
                 GameObject textObj = new GameObject($"{enemy.name}_HP_Text");
                 textObj.transform.SetParent(mainCanvas.transform, false);
@@ -62,7 +78,7 @@ public class UIManager : MonoBehaviour
 
     private void UpdateEnemyHpUI()
     {
-        foreach (Enemy enemy in GameManager.gameManager.enemys)
+        foreach (Enemy enemy in GameManager.Instance.enemys)
         {
             if (hpTextDict.TryGetValue(enemy, out TextMeshProUGUI hpText))
             {
@@ -70,7 +86,7 @@ public class UIManager : MonoBehaviour
                 if (enemy.gameObject.activeSelf)
                 {
                     hpText.gameObject.SetActive(true);
-                    hpText.text = $"{Mathf.CeilToInt(enemy.stat.nowHp)}";
+                    hpText.text = $"{Mathf.CeilToInt(enemy.Stat.nowHp)}";
 
                     // 월드 좌표를 화면(Screen) 좌표로 변환하여 적 머리 위(Y축 +1.5f)에 띄웁니다.
                     Vector3 screenPos = Camera.main.WorldToScreenPoint(enemy.transform.position);
@@ -94,16 +110,19 @@ public class UIManager : MonoBehaviour
     private void UpdateBallStatUI()
     {
         // 공의 상태 정보를 UI 텍스트에 출력합니다.
-        if (GameManager.gameManager != null && GameManager.gameManager.balls != null && GameManager.gameManager.balls.Length > 0)
+        if (GameManager.Instance != null && GameManager.Instance.balls != null && GameManager.Instance.balls.Length > 0)
         {
-            var stat = GameManager.gameManager.balls[0].Stat;
-            var ballStat = GameManager.gameManager.balls[0].BallStat;
+            var stat = GameManager.Instance.balls[0].Stat;
+            var ballStat = GameManager.Instance.balls[0].BallStat;
 
             if (ballStatText != null)
             {
-                ballStatText.text = $"[Stat]\n maxHp: {stat.maxHp.Value}\n nowHp: {stat.nowHp.Value}\n damageReduction: {stat.damageReduction.Value}\n speed: {stat.speed.Value}\n size: {stat.size.Value}\n damage: {stat.damage.Value}\n trueDamage: {stat.trueDamage.Value}\n" +
+                ballStatText.text = $"[Stat]\n maxHp: {stat.maxHp.Value}\n nowHp: {stat.nowHp}\n damageReduction: {stat.damageReduction.Value}\n speed: {stat.speed.Value}\n size: {stat.size.Value}\n damage: {stat.damage.Value}\n trueDamage: {stat.trueDamage.Value}\n" +
                                     $"[BallStat]\n dir: {ballStat.dir}\n criticalChance: {ballStat.criticalChance.Value}\n cirticalDamage: {ballStat.cirticalDamage.Value}";
             }
         }
     }
+
+    #endregion
+
 }
