@@ -65,9 +65,5 @@ public class Enemy : UnitBase
     }
 
     #endregion
-
-
-
-
-
+    
 }

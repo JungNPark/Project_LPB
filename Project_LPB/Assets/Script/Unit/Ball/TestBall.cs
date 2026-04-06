@@ -2,7 +2,15 @@ using UnityEngine;
 
 public class TestBall : BallBase
 {
-    public float SpeedUpScale = 1.0f;
+    #region Variables
+
+    #endregion
+    
+    #region Properties
+
+    #endregion
+
+    #region Unity LifeCycle
     protected override void OnCollisionEnter(Collision collision)
     {
         base.OnCollisionEnter(collision);
@@ -33,10 +41,20 @@ public class TestBall : BallBase
         }
     }
 
+    #endregion
+
+    #region Public Methods
+
+    #endregion
+
+    #region Private Methods
     protected override void ApplyDamage(IUnit target, float damage)
     {
         base.ApplyDamage(target, damage);
 
         target.TakeDamage(this, damage);
     }
+
+    #endregion
+
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 
 
+//TODO: Struct로 교체할지 말지 결정하기
 
 [System.Serializable]
 public class Stat

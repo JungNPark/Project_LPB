@@ -3,24 +3,44 @@ using UnityEngine;
 
 public class ItemManager : MonoBehaviour
 {
-    public Item[] testItems;
-    public BallBase testBall;
-    public int[] AcquireNumberList;
-    public List<IAttackEffect> attackEffects = new List<IAttackEffect>();
-    public List<IHitEffect> hitEffects = new List<IHitEffect>();
+    #region Variables
 
+    [SerializeField]
+    private Item[] testItems;
+    [SerializeField]
+    private BallBase testBall;
+    [SerializeField]
+    private int[] AcquireNumberList;
+    private List<IAttackEffect> attackEffects = new List<IAttackEffect>();
+    private List<IHitEffect> hitEffects = new List<IHitEffect>();
+
+    #endregion
+
+    #region Properties
+
+    #endregion
+
+    #region Unity LifeCycle
     void Start()
     {
         foreach(int AcquireNumber in AcquireNumberList)
         {
+            if(AcquireNumber >= testItems.Length || AcquireNumber < 0)
+            {
+                Debug.Log("AcquireNumber가 정해진 범위를 초과했습니다.");
+            }
             AcquireItem(testItems[AcquireNumber], testBall);
         }
         testBall.attackDelegate += ExecuteAttackEffect;
     }
 
+    #endregion
+
+    #region Public Methods
     public void AcquireItem(Item item, IBall ball)
     {
         item.InitItemEffects();
+        //아이템의 획득시 효과 모두 실행
         foreach(var acquireEffect in item.AcquireEffects)
         {
             acquireEffect.OnAcquire(ball);
@@ -45,4 +65,12 @@ public class ItemManager : MonoBehaviour
             attackEffect.OnAttack(attacker, target , damage);
         }
     }
+
+    #endregion
+
+    #region Private Methods
+
+    #endregion
+
+
 }

@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class BallBase : UnitBase, IBall
 {
-#region Variables
+    #region Variables
     protected Rigidbody rb;
     [SerializeField]
     protected BallStat _ballStat;
 
-#endregion
+    #endregion
 
-#region Properties
+    #region Properties
     public BallStat BallStat { get => _ballStat; set => _ballStat = value; }
 
-#endregion
+    #endregion
 
-#region Unity LifeCycle
+    #region Unity LifeCycle
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -26,9 +26,9 @@ public class BallBase : UnitBase, IBall
         ApplyStat();
     }
 
-#endregion
+    #endregion
 
-#region Private Methods
+    #region Private Methods
 
     private void ApplyStat()
     {
@@ -36,6 +36,9 @@ public class BallBase : UnitBase, IBall
         transform.localScale = Vector3.one * _stat.size.Value;
     }
 
+    #endregion
+
+    #region Public Methods
     public virtual void Shoot(BallStat stat)
     {
         Vector3 dir = new Vector3(stat.dir.x, 0, stat.dir.z);
@@ -48,5 +51,6 @@ public class BallBase : UnitBase, IBall
         _ballStat.dir = dir;
         Shoot(_ballStat);
     }
-#endregion
+
+    #endregion
 }

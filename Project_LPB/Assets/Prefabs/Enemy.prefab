@@ -127,15 +127,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   _stat:
     maxHp:
-      _baseValue: 0
+      _baseValue: 100
       _addValue: 0
       _multiplier: 0
       _finalAddValue: 0
-    nowHp:
-      _baseValue: 0
-      _addValue: 0
-      _multiplier: 0
-      _finalAddValue: 0
+    nowHp: 0
     damageReduction:
       _baseValue: 0
       _addValue: 0
@@ -161,6 +157,3 @@ MonoBehaviour:
       _addValue: 0
       _multiplier: 0
       _finalAddValue: 0
-  stat:
-    maxHp: 100
-    nowHp: 100

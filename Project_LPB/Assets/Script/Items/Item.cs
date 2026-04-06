@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+//TODO: 런타임에서 Effect들을 가져오는 것이 아니라 미리 Effect를 가져온 뒤 프리팹에 저장해두는 방식을 고민해보자.
 public class Item : MonoBehaviour, IItem
 {
     #region Variables
@@ -30,7 +31,6 @@ public class Item : MonoBehaviour, IItem
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     #region Public Methods
-
     public void InitItemEffects()
     {
         if(_itemEffects.Count != 0)

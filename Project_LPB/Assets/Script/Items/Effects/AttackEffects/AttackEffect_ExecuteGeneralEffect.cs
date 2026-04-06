@@ -14,7 +14,7 @@ public class AttackEffect_ExecuteGeneralEffect : MonoBehaviour, IAttackEffect
     //이 클래스가 작동시킬 범용 효과 리스트
     private List<IGeneralEffect> targetGeneralEffects = new List<IGeneralEffect>();
 
-#endregion
+    #endregion
 
     #region Public Methods
     public void OnAttack(IUnit attacker, IUnit target, float damage)

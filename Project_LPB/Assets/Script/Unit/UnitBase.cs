@@ -20,7 +20,7 @@ public delegate void HitDelegate(IUnit attacker, IUnit target, float damage);
 public class UnitBase : MonoBehaviour, IUnit
 {
 
-#region delegate Fields
+    #region delegate Fields
     public UpdateDelegate updateDelegate;
     public TickDelegate tickDelegate;
     public CollisionDelegate collisionDelegate;
@@ -28,17 +28,24 @@ public class UnitBase : MonoBehaviour, IUnit
     public HitDelegate hitDelegate;
 #endregion
 
+    #region Variables
+    
     [SerializeField]
     protected Stat _stat;
+
+    #endregion
+
+    #region Properties
     public virtual Stat Stat
     {
         get => _stat;
         set => _stat = value;
     }
-
     protected Dictionary<int, IBuff> _buffs = new Dictionary<int, IBuff>();
 
-    
+#endregion
+
+    #region Unity LifeCycle
     private void Awake()
     {
         StartCoroutine(TickCoroutine());
@@ -55,17 +62,25 @@ public class UnitBase : MonoBehaviour, IUnit
     {
         OnUpdate(Time.deltaTime);
     }
+#endregion
 
+    #region Private Methods
+    /// <summary>
+    /// 정해진 시간마다 Tick 함수를 호출
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator TickCoroutine()
     {
-        WaitForSeconds wait = new WaitForSeconds(0.1f);
+        WaitForSeconds wait = new WaitForSeconds(0.1f); //TODO: 틱 시간을 조절할 수 있는 공간 만들기
         while (true)
         {
-            OnTick(0.1f);
+            OnTick(0.1f); //TODO: 틱 시간 변수로 변경
             yield return wait;
         }
     }
+#endregion
 
+    #region Invoke Delegates
     protected virtual void OnUpdate(float deltaTime)
     {
         updateDelegate?.Invoke(deltaTime);
@@ -92,5 +107,6 @@ public class UnitBase : MonoBehaviour, IUnit
 
         return damage;
     }
+#endregion
     
 }

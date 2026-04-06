@@ -1,24 +1,28 @@
+using System;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    #region Variables
+#region Variables
     private LineRenderer lineRenderer;
     [SerializeField]
     private float lineLength = 5.0f;
-    private bool bIsBallShooted = false;
+    private bool bCanShoot = false; // 평소 발사 여부를 제어하는 변수 추가
+    public GameObject ballStartPoint; // 턴 시작 시 공들이 모일 오브젝트
 
-    #endregion
+#endregion
 
-    #region Properties
+#region Properties
     public BallBase[] balls { get; set;}
     public Enemy[] enemys { get; set; }
     public InputManager InputManager { get; set; }
     public static GameManager Instance { get; set; }
 
-    #endregion
+    public event Action OnTurnStart;
 
-    #region Unity LifeCycle
+#endregion
+
+#region Unity LifeCycle
     void Awake()
     {
         if(Instance == null)
@@ -33,6 +37,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InitLineRenderer();
+        StartTurn();
     }
 
     // Update is called once per frame
@@ -41,9 +46,9 @@ public class GameManager : MonoBehaviour
         DrawShootingLine();
     }
 
-    #endregion
+#endregion
 
-    #region Public Methods
+#region Public Methods
     public void ClickMouse(Vector3 mousePosInWorld)
     {
         Vector3 ballPos = balls[0].transform.position;
@@ -55,8 +60,9 @@ public class GameManager : MonoBehaviour
 
     public void ShootBalls(Vector3 dir)
     {
-
-        bIsBallShooted = true;
+        if (!bCanShoot) return; // 안전을 위해 한 번 더 검증
+        
+        bCanShoot = false; // 중복해서 여러 번 쏘지 못하도록 처리
 
         lineRenderer.enabled = false;
         foreach(IBall ball in balls)
@@ -65,9 +71,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    #endregion
+#endregion
 
-    #region Private Methods
+#region Private Methods
     private void InitLineRenderer()
     {
         // 라인을 그리기 위한 LineRenderer 컴포넌트 추가 및 초기화
@@ -88,7 +94,7 @@ public class GameManager : MonoBehaviour
 
     private void DrawShootingLine()
     {
-        if(bIsBallShooted)
+        if(!bCanShoot)
         {
             return;
         }
@@ -100,7 +106,23 @@ public class GameManager : MonoBehaviour
         lineRenderer.SetPosition(1, lineEnd);
     }
 
-    #endregion
+    private void StartTurn()
+    {
+        // 모든 공을 지정된 오브젝트의 위치로 이동
+        if (ballStartPoint != null && balls != null)
+        {
+            foreach (BallBase ball in balls)
+            {
+                ball.transform.position = ballStartPoint.transform.position;
+            }
+        }
+        lineRenderer.enabled = true; // 궤적 라인 다시 켜기
+        bCanShoot = true; // 턴이 시작되면 다시 쏠 수 있도록 상태 변경
+
+        OnTurnStart?.Invoke();
+    }
+
+#endregion
 
 
 
@@ -108,4 +130,3 @@ public class GameManager : MonoBehaviour
 
     
 }
-
