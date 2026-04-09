@@ -10,13 +10,13 @@ public class InputManager : MonoBehaviour
 
     #endregion
     
-    #region Properties
+#region Properties
     public Vector2 MousePos_screen {get; set;}
     public Vector3 MousePos_world {get; set;}
 
-    #endregion
+#endregion
 
-    #region Unity LifeCycle
+#region Unity LifeCycle
     void Start()
     {
         clickAction = InputSystem.actions.FindAction("Click");
@@ -31,13 +31,13 @@ public class InputManager : MonoBehaviour
         MousePos_world = new Vector3(MousePos_world.x, MousePos_world.y, 0f);
     }
 
-    #endregion
+#endregion
 
-    #region Public Methods
+#region Public Methods
 
-    #endregion
+#endregion
 
-    #region Private Methods
+#region Private Methods
     private void OnClick()
     {
         if(!clickAction.IsPressed())
@@ -48,7 +48,7 @@ public class InputManager : MonoBehaviour
         GameManager.Instance.ClickMouse(MousePos_world);
     }
 
-    #endregion
+#endregion
 
 
 

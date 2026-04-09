@@ -29,8 +29,9 @@ public class TestBall : BallBase
         }
     }
 
-    protected virtual void OnTriggerEnter2D(Collider2D other)
+    protected override void OnTriggerEnter2D(Collider2D other)
     {
+        base.OnTriggerEnter2D(other);
         if (other.gameObject.CompareTag("Enemy"))
         {
             Enemy enemy = other.gameObject.GetComponent<Enemy>();

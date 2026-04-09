@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class BallBase : UnitBase, IBall
@@ -14,6 +15,11 @@ public class BallBase : UnitBase, IBall
 
     #endregion
 
+    #region Events
+    public event Action OnBallDead;
+
+    #endregion
+
     #region Unity LifeCycle
     protected override void Awake()
     {
@@ -21,10 +27,17 @@ public class BallBase : UnitBase, IBall
         rb = GetComponent<Rigidbody2D>();
     }
 
-    
     void LateUpdate()
     {
         ApplyStat();
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("BallDeadZone"))
+        {
+            HandleBallDead();
+        }
     }
 
     #endregion
@@ -50,6 +63,12 @@ public class BallBase : UnitBase, IBall
     {
         _ballStat.dir = dir;
         Shoot(_ballStat);
+    }
+
+    public void HandleBallDead()
+    {
+        rb.linearVelocity = Vector2.zero;
+        OnBallDead?.Invoke();
     }
 
     #endregion

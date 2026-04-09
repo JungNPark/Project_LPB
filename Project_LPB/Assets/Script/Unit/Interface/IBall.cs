@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 
 public interface IBall : IUnit
 {
-   void Shoot(Vector2 dir);
+   event Action OnBallDead;
    BallStat BallStat { get; set; }
+   void Shoot(Vector2 dir);
+   void HandleBallDead();
 }

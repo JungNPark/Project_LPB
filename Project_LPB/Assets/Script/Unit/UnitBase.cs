@@ -68,7 +68,7 @@ public class UnitBase : MonoBehaviour, IUnit
     }
 #endregion
 
-    #region Private Methods
+#region Private Methods
     /// <summary>
     /// 정해진 시간마다 Tick 함수를 호출
     /// </summary>

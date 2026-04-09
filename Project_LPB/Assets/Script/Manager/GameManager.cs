@@ -7,8 +7,11 @@ public class GameManager : MonoBehaviour
     private LineRenderer lineRenderer;
     [SerializeField]
     private float lineLength = 5.0f;
-    private bool bCanShoot = false; // 평소 발사 여부를 제어하는 변수 추가
-    public GameObject ballStartPoint; // 턴 시작 시 공들이 모일 오브젝트
+    private bool bCanShoot = false;
+    public GameObject ballStartPoint;
+
+    private int _totalBallCount;
+    private int _deadBallCount;
 
 #endregion
 
@@ -32,6 +35,11 @@ public class GameManager : MonoBehaviour
         InputManager = FindObjectsByType<InputManager>(FindObjectsSortMode.None)[0];
         balls = FindObjectsByType<BallBase>(FindObjectsSortMode.None);
         enemys = FindObjectsByType<Enemy>(FindObjectsSortMode.None);
+
+        foreach (BallBase ball in balls)
+        {
+            ball.OnBallDead += OnBallDeadCallback;
+        }
     }
 
     void Start()
@@ -60,12 +68,16 @@ public class GameManager : MonoBehaviour
 
     public void ShootBalls(Vector2 dir)
     {
-        if (!bCanShoot) return; // 안전을 위해 한 번 더 검증
-        
-        bCanShoot = false; // 중복해서 여러 번 쏘지 못하도록 처리
+        if (!bCanShoot) return;
+
+        bCanShoot = false;
+
+        _totalBallCount = balls.Length;
+        _deadBallCount = 0;
+
 
         lineRenderer.enabled = false;
-        foreach(IBall ball in balls)
+        foreach (IBall ball in balls)
         {
             ball.Shoot(dir);
         }
@@ -104,6 +116,21 @@ public class GameManager : MonoBehaviour
         Vector2 lineEnd = lineStart + lineDir * lineLength;
         lineRenderer.SetPosition(0, lineStart);
         lineRenderer.SetPosition(1, lineEnd);
+    }
+
+    private void OnBallDeadCallback()
+    {
+        _deadBallCount++;
+        if (_deadBallCount >= _totalBallCount)
+        {
+            EndTurn();
+        }
+    }
+
+    private void EndTurn()
+    {
+        Debug.Log("EndTurn");
+        StartTurn();
     }
 
     private void StartTurn()
