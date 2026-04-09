@@ -49,16 +49,16 @@ public class GameManager : MonoBehaviour
 #endregion
 
 #region Public Methods
-    public void ClickMouse(Vector3 mousePosInWorld)
+    public void ClickMouse(Vector2 mousePosInWorld)
     {
-        Vector3 ballPos = balls[0].transform.position;
-        Vector3 shootingDir = (mousePosInWorld - ballPos).normalized;
+        Vector2 ballPos = balls[0].transform.position;
+        Vector2 shootingDir = (mousePosInWorld - ballPos).normalized;
 
         Debug.Log($"공 발사 방향 벡터 : {shootingDir}");
         ShootBalls(shootingDir);
     }
 
-    public void ShootBalls(Vector3 dir)
+    public void ShootBalls(Vector2 dir)
     {
         if (!bCanShoot) return; // 안전을 위해 한 번 더 검증
         
@@ -98,10 +98,10 @@ public class GameManager : MonoBehaviour
         {
             return;
         }
-        Vector3 mousePos = new Vector3(InputManager.MousePos_world.x, balls[0].transform.position.y, InputManager.MousePos_world.z);
-        Vector3 lineStart = balls[0].transform.position;
-        Vector3 lineDir = (mousePos - lineStart).normalized;
-        Vector3 lineEnd = lineStart + lineDir * lineLength;
+        Vector2 mousePos = new Vector2(InputManager.MousePos_world.x, InputManager.MousePos_world.y);
+        Vector2 lineStart = balls[0].transform.position;
+        Vector2 lineDir = (mousePos - lineStart).normalized;
+        Vector2 lineEnd = lineStart + lineDir * lineLength;
         lineRenderer.SetPosition(0, lineStart);
         lineRenderer.SetPosition(1, lineEnd);
     }

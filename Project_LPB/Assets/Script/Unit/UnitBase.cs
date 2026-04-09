@@ -11,7 +11,7 @@ public delegate void UpdateDelegate(float deltaTime);
 //별도로 추가한 Tick 함수가 호출될 때마다 작동하는 델리게이트
 public delegate void TickDelegate(float tickRate);
 //CollisionEnter가 호출될 때마다 작동하는 델리게이트
-public delegate void CollisionDelegate(Collision collision);
+public delegate void CollisionDelegate(Collision2D collision);
 //ApplyDamage()가 호출될 때마다 작동하는 델리게이트
 public delegate void AttackDelegate(IUnit attacker, IUnit target, float damage);
 //TakeDamage()가 호출될 때마다 작동하는 델리게이트
@@ -20,7 +20,7 @@ public delegate void HitDelegate(IUnit attacker, IUnit target, float damage);
 public class UnitBase : MonoBehaviour, IUnit
 {
 
-    #region delegate Fields
+#region delegate Fields
     public UpdateDelegate updateDelegate;
     public TickDelegate tickDelegate;
     public CollisionDelegate collisionDelegate;
@@ -45,8 +45,8 @@ public class UnitBase : MonoBehaviour, IUnit
 
 #endregion
 
-    #region Unity LifeCycle
-    private void Awake()
+#region Unity LifeCycle
+    protected virtual void Awake()
     {
         StartCoroutine(TickCoroutine());
     }
@@ -61,6 +61,10 @@ public class UnitBase : MonoBehaviour, IUnit
     void Update()
     {
         OnUpdate(Time.deltaTime);
+    }
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
+    {
+        collisionDelegate?.Invoke(collision);
     }
 #endregion
 
@@ -91,10 +95,6 @@ public class UnitBase : MonoBehaviour, IUnit
         tickDelegate?.Invoke(tickRate);
     }
 
-    protected virtual void OnCollisionEnter(Collision collision)
-    {
-        collisionDelegate?.Invoke(collision);
-    }
 
     protected virtual void ApplyDamage(IUnit target, float damage)
     {

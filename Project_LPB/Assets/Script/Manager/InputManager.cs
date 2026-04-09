@@ -26,11 +26,9 @@ public class InputManager : MonoBehaviour
     void Update()
     {
         MousePos_screen = pointAction.ReadValue<Vector2>();
-        Ray ray = Camera.main.ScreenPointToRay(MousePos_screen);
-        if (Physics.Raycast(ray, out RaycastHit hit))
-        {
-            MousePos_world = hit.point;
-        }
+        Vector3 screenPos = new(MousePos_screen.x, MousePos_screen.y, -Camera.main.transform.position.z);
+        MousePos_world = Camera.main.ScreenToWorldPoint(screenPos);
+        MousePos_world = new Vector3(MousePos_world.x, MousePos_world.y, 0f);
     }
 
     #endregion

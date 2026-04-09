@@ -11,9 +11,9 @@ public class TestBall : BallBase
     #endregion
 
     #region Unity LifeCycle
-    protected override void OnCollisionEnter(Collision collision)
+    protected override void OnCollisionEnter2D(Collision2D collision)
     {
-        base.OnCollisionEnter(collision);
+        base.OnCollisionEnter2D(collision);
         if (rb.linearVelocity.sqrMagnitude > 0.01f)
         {
             _ballStat.dir = rb.linearVelocity.normalized;
@@ -29,7 +29,7 @@ public class TestBall : BallBase
         }
     }
 
-    protected virtual void OnTriggerEnter(Collider other)
+    protected virtual void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Enemy"))
         {

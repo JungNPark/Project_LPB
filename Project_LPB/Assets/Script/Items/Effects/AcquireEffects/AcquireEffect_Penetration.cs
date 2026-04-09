@@ -24,7 +24,7 @@ public class AcquireEffect_Penetration : MonoBehaviour, IAcquireEffect
         //공이 적을 통과하도록 레이어 충돌 변경
         int ballLayer = LayerMask.NameToLayer("Ball");
         int enemyLayer = LayerMask.NameToLayer("Enemy");
-        Physics.IgnoreLayerCollision(ballLayer, enemyLayer, true);
+        Physics2D.IgnoreLayerCollision(ballLayer, enemyLayer, true);
 
         //공이 공격 판정을 Trigger로 하도록 활성화된 콜라이더를 자식으로 추가 
         MonoBehaviour ballMono = ball as MonoBehaviour;
@@ -32,11 +32,11 @@ public class AcquireEffect_Penetration : MonoBehaviour, IAcquireEffect
         {
             GameObject triggerObj = new GameObject("PenetrationTrigger");
             triggerObj.transform.SetParent(ballMono.transform);
-            triggerObj.transform.localPosition = Vector3.zero;
+            triggerObj.transform.localPosition = Vector2.zero;
 
-            SphereCollider sphereCollider = triggerObj.AddComponent<SphereCollider>();
-            sphereCollider.radius = 0.5f;
-            sphereCollider.isTrigger = true;
+            CircleCollider2D circleCollider = triggerObj.AddComponent<CircleCollider2D>();
+            circleCollider.radius = 0.5f;
+            circleCollider.isTrigger = true;
         }
     }
 

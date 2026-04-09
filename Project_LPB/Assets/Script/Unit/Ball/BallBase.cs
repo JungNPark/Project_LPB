@@ -3,7 +3,7 @@ using UnityEngine;
 public class BallBase : UnitBase, IBall
 {
     #region Variables
-    protected Rigidbody rb;
+    protected Rigidbody2D rb;
     [SerializeField]
     protected BallStat _ballStat;
 
@@ -15,9 +15,10 @@ public class BallBase : UnitBase, IBall
     #endregion
 
     #region Unity LifeCycle
-    void Awake()
+    protected override void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        base.Awake();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     
@@ -41,12 +42,11 @@ public class BallBase : UnitBase, IBall
     #region Public Methods
     public virtual void Shoot(BallStat stat)
     {
-        Vector3 dir = new Vector3(stat.dir.x, 0, stat.dir.z);
-        dir = dir.normalized;
-        rb.linearVelocity = dir * _stat.speed.Value;
+        stat.dir = stat.dir.normalized;
+        rb.linearVelocity = stat.dir * _stat.speed.Value;
     }
 
-    public virtual void Shoot(Vector3 dir)
+    public virtual void Shoot(Vector2 dir)
     {
         _ballStat.dir = dir;
         Shoot(_ballStat);
