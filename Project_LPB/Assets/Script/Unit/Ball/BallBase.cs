@@ -17,6 +17,7 @@ public class BallBase : UnitBase, IBall
 
     #region Events
     public event Action OnBallDead;
+    public event Action<float, float> OnHpChanged;
 
     #endregion
 
@@ -63,6 +64,14 @@ public class BallBase : UnitBase, IBall
     {
         _ballStat.dir = dir;
         Shoot(_ballStat);
+    }
+
+    public override float TakeDamage(IUnit attacker, float damage)
+    {
+        base.TakeDamage(attacker, damage);
+        Stat.nowHp -= damage;
+        OnHpChanged?.Invoke(Stat.nowHp, Stat.maxHp.Value);
+        return damage;
     }
 
     public void HandleBallDead()

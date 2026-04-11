@@ -69,7 +69,7 @@ MonoBehaviour:
       _multiplier: 0
       _finalAddValue: 0
     damage:
-      _baseValue: 0
+      _baseValue: 1
       _addValue: 0
       _multiplier: 0
       _finalAddValue: 0

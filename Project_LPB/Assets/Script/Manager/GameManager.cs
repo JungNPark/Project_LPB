@@ -130,6 +130,15 @@ public class GameManager : MonoBehaviour
     private void EndTurn()
     {
         Debug.Log("EndTurn");
+
+        foreach (Enemy enemy in enemys)
+        {
+            if (enemy.gameObject.activeInHierarchy)
+            {
+                enemy.Attack(balls[0]);
+            }
+        }
+
         StartTurn();
     }
 

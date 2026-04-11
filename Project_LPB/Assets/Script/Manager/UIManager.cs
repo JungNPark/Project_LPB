@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 
@@ -9,6 +10,8 @@ public class UIManager : MonoBehaviour
     private Dictionary<Enemy, TextMeshProUGUI> hpTextDict = new Dictionary<Enemy, TextMeshProUGUI>();
     private Canvas mainCanvas;
     private TextMeshProUGUI ballStatText;
+    [SerializeField] private BallBase ballHpSliderTarget;
+    [SerializeField] private Slider ballHpSlider;
 
     #endregion
     
@@ -26,6 +29,7 @@ public class UIManager : MonoBehaviour
         InitEnemyHpUI();
         // Ball Stat이라는 이름의 오브젝트를 찾아서 TextMeshProUGUI 컴포넌트를 가져옵니다.
         InitBallStatUI();
+        InitBallHpSlider();
     }
 
     // Update is called once per frame
@@ -42,6 +46,23 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region Private Methods
+    private void InitBallHpSlider()
+    {
+        if (ballHpSliderTarget != null && ballHpSlider != null)
+        {
+            ballHpSlider.minValue = 0f;
+            ballHpSlider.maxValue = 1f;
+            ballHpSlider.value = 1f;
+            ballHpSliderTarget.OnHpChanged += UpdateBallHpSlider;
+        }
+    }
+
+    private void UpdateBallHpSlider(float nowHp, float maxHp)
+    {
+        if (ballHpSlider != null)
+            ballHpSlider.value = nowHp / maxHp;
+    }
+
     private void InitBallStatUI()
     {
         GameObject ballStatObj = GameObject.Find("Ball Stat");

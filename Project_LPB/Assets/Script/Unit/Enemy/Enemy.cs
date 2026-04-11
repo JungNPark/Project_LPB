@@ -37,6 +37,17 @@ public class Enemy : UnitBase
     #endregion
 
     #region Public Methods
+    public void Attack(IUnit target)
+    {
+        ApplyDamage(target, Stat.damage.Value);
+    }
+
+    protected override void ApplyDamage(IUnit target, float damage)
+    {
+        base.ApplyDamage(target, damage);
+        target.TakeDamage(this, damage);
+    }
+
     public override float TakeDamage(IUnit attacker, float damage)
     {
         base.TakeDamage(attacker, damage);
